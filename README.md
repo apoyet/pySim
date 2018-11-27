@@ -3,7 +3,7 @@ An environment for simulations using SixTrack and SixDesk
 
 
 ## Get started
-In order to work with the simulations-tools package, please clone the project in your own machine, using SSH:
+In order to work with the pySim package, please clone the project in your own machine, using SSH:
 
 ```
 git clone git@github.com:apoyet/pySim.git
