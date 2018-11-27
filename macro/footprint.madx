@@ -1,0 +1,37 @@
+!========================================================================================================!
+!                                             FOOTPRINT MACRO                                            !
+!========================================================================================================!
+
+MAKEFOOTPRINT(nam):macro={
+small=0.02;
+big=sqrt(1.-small^2);
+track, deltap=0.000,file=track,ONETABLE=false;
+xs=small;
+ys=small;
+value,xs,ys;
+start,fx=xs,fy=ys;
+n=1;
+m=0;
+while (n <= 6)
+{
+angle = 15*m*pi/180;
+if (m == 0) {xs=n*big; ys=n*small;}
+elseif (m == 6) {xs=n*small; ys=n*big;}
+else
+{
+xs=n*cos(angle);
+ys=n*sin(angle);
+}
+value,xs,ys;
+start,fx=xs,fy=ys;
+m=m+1;
+if (m == 7) { m=0; n=n+1;}
+};
+dynap,fastune,turns=1024;
+endtrack;
+system, "rm -rf temp_f_nam";
+system, "mkdir temp_f_nam";
+write,table=dynap,file="temp_f_nam/dynap";
+write,table=dynaptune,file="temp_f_nam/dynaptune";
+system,"/afs/cern.ch/group/si/slap/bin/foot < temp_f_nam/dynaptune > temp_f_nam/footprint";
+};

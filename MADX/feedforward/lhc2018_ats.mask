@@ -1,0 +1,105 @@
+option, -echo, -warn;
+call, file="seqB1.seq";
+call, file="/afs/cern.ch/user/a/apoyet/Public/pySim/macro/macro_bb.madx";
+call, file="/afs/cern.ch/user/a/apoyet/Public/pySim/macro/wires_installation.madx";
+call, file="/afs/cern.ch/user/a/apoyet/Public/pySim/macro/footprint.madx"
+option, echo, warn;
+
+
+qx_tar = 62.31;
+qy_tar = 60.32;
+
+! FOR BEAM 1
+
+use, sequence=lhcb1;
+twiss;
+
+! want to install @ 158.3 m from the IP
+
+s_opt = 158.3;
+
+! IP5
+
+sIP5 = table(twiss, ip5, s);
+
+x_wire_r5.b1 = -0.01;
+y_wire_r5.b1 = 0;
+s_wire_r5.b1 = sIP5+s_opt;
+I_wire_r5.b1 = 300;
+r_wire_r5.b1 = SQRT(x_wire_r5.b1^2 + y_wire_r5.b1^2);
+
+x_wire_l5.b1 = 0.015;
+y_wire_l5.b1 = 0;
+s_wire_l5.b1 = sIP5-s_opt;
+I_wire_l5.b1 = 285;
+r_wire_l5.b1 = SQRT(x_wire_l5.b1^2 + y_wire_l5.b1^2);
+
+if(I_wire_r5.b1>0){
+exec, INSTALL_WIRE_C_B1(bbwire_c_r5.b1, s_wire_r5.b1, x_wire_r5.b1, y_wire_r5.b1, I_wire_r5.b1);
+
+dk4 = 2.19512457e-09 + 8.65745070e-12*I_wire_r5.b1/r_wire_r5.b1^2 - 2.18963932e-20*(I_wire_r5.b1/r_wire_r5.b1^2)^2;
+dk5 = -9.44683895e-09 - 8.90562248e-12*I_wire_r5.b1/r_wire_r5.b1^2 + 4.38048891e-20*(I_wire_r5.b1/r_wire_r5.b1^2)^2;
+kq5.r5b1 = kq5.r5b1 + dk5;
+kq4.r5b1 = kq4.r5b1 + dk4;
+
+};
+
+if(I_wire_l5.b1>0){
+exec, INSTALL_WIRE_C_B1(bbwire_c_l5.b1, s_wire_l5.b1, x_wire_l5.b1, y_wire_l5.b1, I_wire_l5.b1);
+
+dk4 = -3.24025978e-09 + 8.97803604e-12*I_wire_l5.b1/r_wire_l5.b1^2 + 5.02215572e-20*(I_wire_l5.b1/r_wire_l5.b1^2)^2;
+dk5 = 5.20497459e-09 - 9.43406930e-12*I_wire_l5.b1/r_wire_l5.b1^2 - 8.14213238e-20*(I_wire_l5.b1/r_wire_l5.b1^2)^2;
+kq5.l5b1 = kq5.l5b1 + dk5;
+kq4.l5b1 = kq4.l5b1 + dk4;
+
+!match;
+!global, q1=qx_tar, q2=qy_tar;
+!vary,   name=kq5.l5b1, step=1.0E-7 ;
+!vary,   name=kq4.l5b1, step=1.0E-7 ;
+!lmdif,  calls=100, tolerance=1.0E-21;
+!endmatch;
+};
+
+! IP1
+
+sIP1 = table(twiss, ip1, s);
+
+x_wire_r1.b1 = 0;
+y_wire_r1.b1 = 0.01;
+s_wire_r1.b1 = sIP1+s_opt;
+I_wire_r1.b1 = 0;
+
+x_wire_l1.b1 = 0;
+y_wire_l1.b1 = -0.01;
+s_wire_l1.b1 = sIP1-s_opt;
+I_wire_l1.b1 = 0;
+
+if(I_wire_r1.b1>0){
+exec, INSTALL_WIRE_C_B1(bbwire_c_r1.b1, s_wire_r1.b1, x_wire_r1.b1, y_wire_r1.b1, I_wire_r1.b1);
+
+match;
+global, q1=qx_tar, q2=qy_tar;
+vary,   name=kq5.r1b1, step=1.0E-7 ;
+vary,   name=kq4.r1b1, step=1.0E-7 ;
+lmdif,  calls=100, tolerance=1.0E-21;
+endmatch;
+};
+
+if(I_wire_l1.b1>0){          
+exec, INSTALL_WIRE_C_B1(bbwire_c_l1.b1, s_wire_l1.b1, x_wire_l1.b1, y_wire_l1.b1, I_wire_l1.b1);
+        
+match;
+global, q1=qx_tar, q2=qy_tar;
+vary,   name=kq5.l1b1, step=1.0E-7 ;
+vary,   name=kq4.l1b1, step=1.0E-7 ;
+lmdif,  calls=100, tolerance=1.0E-21;
+endmatch;
+};
+
+use, sequence=lhcb1;
+twiss;
+
+
+stop;
+
+
