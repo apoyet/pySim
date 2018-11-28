@@ -14,6 +14,8 @@ qy_tar = 60.32;
 use, sequence=lhcb1;
 twiss;
 
+
+
 ! want to install @ 158.3 m from the IP
 
 s_opt = 158.3;
@@ -26,30 +28,29 @@ x_wire_r5.b1 = -0.01;
 y_wire_r5.b1 = 0;
 s_wire_r5.b1 = sIP5+s_opt;
 I_wire_r5.b1 = 350;
+r_wire_r5.b1 = SQRT(x_wire_r5.b1^2 + y_wire_r5.b1^2);
 
-x_wire_l5.b1 = 0.01; 
+x_wire_l5.b1 = 0.01;
 y_wire_l5.b1 = 0;
 s_wire_l5.b1 = sIP5-s_opt;
 I_wire_l5.b1 = 350;
+r_wire_l5.b1 = SQRT(x_wire_l5.b1^2 + y_wire_l5.b1^2);
 
+if(I_wire_r5.b1<>0){
+dk4_r5 = 7.79838596e-10 + 8.66179168e-12*I_wire_r5.b1/r_wire_r5.b1^2 - 2.43268741e-20*(I_wire_r5.b1/r_wire_r5.b1^2)^2 + 3.52561927e-28*(I_wire_r5.b1/r_wire_r5.b1^2)^3;
+dk5_r5 = -7.55033345e-09 - 8.91143947e-12*I_wire_r5.b1/r_wire_r5.b1^2 + 4.70617718e-20*(I_wire_r5.b1/r_wire_r5.b1^2)^2 - 4.72438536e-28*(I_wire_r5.b1/r_wire_r5.b1^2)^3;
+kq5.r5b1 = kq5.r5b1 + dk5_r5;
+kq4.r5b1 = kq4.r5b1 + dk4_r5;
 exec, INSTALL_WIRE_C_B1(bbwire_c_r5.b1, s_wire_r5.b1, x_wire_r5.b1, y_wire_r5.b1, I_wire_r5.b1);
+};
 
-match;
-global, q1=qx_tar, q2=qy_tar;
-vary,   name=kq5.r5b1, step=1.0E-7 ;
-vary,   name=kq4.r5b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
-endmatch;
-
+if(I_wire_l5.b1<>0){
+dk4_l5 = -9.44637723e-09 + 8.99707154e-12*I_wire_l5.b1/r_wire_l5.b1^2 + 3.95637465e-20*(I_wire_l5.b1/r_wire_l5.b1^2)^2 + 1.54600609e-27*(I_wire_l5.b1/r_wire_l5.b1^2)^3;
+dk5_l5 = 6.59444118e-09 - 9.43833110e-12*I_wire_l5.b1/r_wire_l5.b1^2 - 7.90351827e-20*(I_wire_l5.b1/r_wire_l5.b1^2)^2 - 3.46130060e-28*(I_wire_l5.b1/r_wire_l5.b1^2)^3;
+kq5.l5b1 = kq5.l5b1 + dk5_l5;
+kq4.l5b1 = kq4.l5b1 + dk4_l5;
 exec, INSTALL_WIRE_C_B1(bbwire_c_l5.b1, s_wire_l5.b1, x_wire_l5.b1, y_wire_l5.b1, I_wire_l5.b1);
-
-match;
-global, q1=qx_tar, q2=qy_tar;
-vary,   name=kq5.l5b1, step=1.0E-7 ;
-vary,   name=kq4.l5b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
-endmatch;
-
+};
 
 ! IP1
 
@@ -59,37 +60,31 @@ x_wire_r1.b1 = 0;
 y_wire_r1.b1 = 0.01;
 s_wire_r1.b1 = sIP1+s_opt;
 I_wire_r1.b1 = 350;
+r_wire_r1.b1 = SQRT(x_wire_r1.b1^2 + y_wire_r1.b1^2);
 
 x_wire_l1.b1 = 0;
 y_wire_l1.b1 = -0.01;
 s_wire_l1.b1 = sIP1-s_opt;
 I_wire_l1.b1 = 350;
+r_wire_l1.b1 = SQRT(x_wire_l1.b1^2 + y_wire_l1.b1^2);
 
+if(I_wire_r1.b1<>0){
+dk4_r1 = -2.65998341e-10 - 8.88991568e-12*I_wire_r1.b1/r_wire_r1.b1^2 - 1.96649614e-20*(I_wire_r1.b1/r_wire_r1.b1^2)^2 - 8.45114760e-28*(I_wire_r1.b1/r_wire_r1.b1^2)^3;
+dk5_r1 = -7.55037152e-09 + 9.28493511e-12*I_wire_r1.b1/r_wire_r1.b1^2 + 4.52889677e-20*(I_wire_r1.b1/r_wire_r1.b1^2)^2 + 1.29847718e-27*(I_wire_r1.b1/r_wire_r1.b1^2)^3;
+kq5.r1b1 = kq5.r1b1 + dk5_r1;
+kq4.r1b1 = kq4.r1b1 + dk4_r1;
 exec, INSTALL_WIRE_C_B1(bbwire_c_r1.b1, s_wire_r1.b1, x_wire_r1.b1, y_wire_r1.b1, I_wire_r1.b1);
+};
 
-match;
-global, q1=qx_tar, q2=qy_tar;
-vary,   name=kq5.r1b1, step=1.0E-7 ;
-vary,   name=kq4.r1b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
-endmatch;
-          
+if(I_wire_l1.b1<>0){          
+dk4_l1 = -1.07126941e-08 - 8.79548867e-12*I_wire_l1.b1/r_wire_l1.b1^2 + 3.60883837e-20*(I_wire_l1.b1/r_wire_l1.b1^2)^2 - 1.04640821e-28*(I_wire_l1.b1/r_wire_l1.b1^2)^3;
+dk5_l1 = 8.57607570e-09 + 9.13091672e-12*I_wire_l1.b1/r_wire_l1.b1^2 - 6.73915860e-20*(I_wire_l1.b1/r_wire_l1.b1^2)^2 + 1.17667046e-27*(I_wire_l1.b1/r_wire_l1.b1^2)^3;
+kq5.l1b1 = kq5.l1b1 + dk5_l1;
+kq4.l1b1 = kq4.l1b1 + dk4_l1;
 exec, INSTALL_WIRE_C_B1(bbwire_c_l1.b1, s_wire_l1.b1, x_wire_l1.b1, y_wire_l1.b1, I_wire_l1.b1);
-        
-match;
-global, q1=qx_tar, q2=qy_tar;
-vary,   name=kq5.l1b1, step=1.0E-7 ;
-vary,   name=kq4.l1b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
-endmatch;
-
-use, sequence=lhcb1;
-twiss;
+};
 
 ON_BB_CHARGE := 1;
-
-use, sequence=lhcb1;
-twiss;
 
 VRF400:=12.;
 LAGRF400.B1=0.5;
@@ -139,6 +134,5 @@ twiss,file="last_twiss.%SEEDRAN";
 System,"gzip -f last_twiss.%SEEDRAN";
 };
 
+
 stop;
-
-
