@@ -33,7 +33,7 @@ r_wire_r5.b1 = SQRT(x_wire_r5.b1^2 + y_wire_r5.b1^2);
 x_wire_l5.b1 = %MASKED_x_wire_l5;
 y_wire_l5.b1 = %MASKED_y_wire_l5;
 s_wire_l5.b1 = sIP5-%MASKED_s_wire_l5;
-I_wire_l5.b1 = %MASKED_I_wire_r5;
+I_wire_l5.b1 = %MASKED_I_wire_l5;
 r_wire_l5.b1 = SQRT(x_wire_l5.b1^2 + y_wire_l5.b1^2);
 
 if(I_wire_r5.b1<>0){
