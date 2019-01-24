@@ -10,7 +10,7 @@ INSTALL_WIRE_C_B1(name_bbcw.b1, s_bbcw.b1, x_bbcw.b1, y_bbcw.b1, I_bbcw.b1): MAC
 !This macro installs ONE wire on B1, given its s and transverse positions and
 !its current. Please be careful that the distances have to be given with respect
 !to B1 reference frame. As input, the user should also choose a name to give to
-!the wire 
+!the wire
 
 use, sequence = lhcb1;
 
@@ -92,7 +92,7 @@ INSTALL_WIRE_C_B2(name_bbcw.b2, s_bbcw.b2, x_bbcw.b2, y_bbcw.b2, I_bbcw.b2): MAC
 !This macro installs ONE wire on B2, given its s and transverse positions and
 !its current. Please be careful that the distances have to be given with respect
 !to B1 reference frame. As input, the user should also choose a name to give to
-!the wire 
+!the wire
 
 use, sequence = lhcb2;
 
@@ -169,4 +169,30 @@ value, I_bbcw.b2,n_bbcw.b2;
 };
 
 
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;^M
+!     Wire compensator installation in bb_lenses.dat^M
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;^M
 
+PRINT_WIRE_LENSES : macro = {
+        system, "sed -i '$d' bb_lenses.dat"; ! removes last line: NEXT
+        !! Print out the beam beam wire compensator lenses
+        option,-echo, -info;
+        assign, echo=bb_lenses.dat;
+
+        !## IP1 ##!
+        if (I_wire_l1.b1<>0){
+        printf, text="bbwire_c_l1.b1 0 %f %f %f %f %f", value= (bbwire_c_l1.b1->sigx)^2*1e6, (bbwire_c_l1.b1->sigy)^2*1e6, -1.0*(bbwire_c_l1.b1->xma-x_bbwire_c_l1.b1)*1e3, -1.0*(bbwire_c_l1.b1->yma-y_bbwire_c_l1.b1)*1e3, bbwire_c_l1.b1->charge;
+};
+        if (I_wire_r1.b1<>0){
+        printf, text="bbwire_c_r1.b1 0 %f %f %f %f %f", value= (bbwire_c_r1.b1->sigx)^2*1e6, (bbwire_c_r1.b1->sigy)^2*1e6, -1.0*(bbwire_c_r1.b1->xma-x_bbwire_c_r1.b1)*1e3, -1.0*(bbwire_c_r1.b1->yma-y_bbwire_c_r1.b1)*1e3, bbwire_c_r1.b1->charge;
+};
+        !## IP5 ##!
+        if (I_wire_l5.b1<>0){
+        printf, text="bbwire_c_l5.b1 0 %f %f %f %f %f", value= (bbwire_c_l5.b1->sigx)^2*1e6, (bbwire_c_l5.b1->sigy)^2*1e6, -1.0*(bbwire_c_l5.b1->xma-x_bbwire_c_l5.b1)*1e3, -1.0*(bbwire_c_l5.b1->yma-y_bbwire_c_l5.b1)*1e3, bbwire_c_l5.b1->charge;
+};
+        if (I_wire_r5.b1<>0){
+        printf, text="bbwire_c_r5.b1 0 %f %f %f %f %f", value= (bbwire_c_r5.b1->sigx)^2*1e6, (bbwire_c_r5.b1->sigy)^2*1e6, -1.0*(bbwire_c_r5.b1->xma-x_bbwire_c_r5.b1)*1e3, -1.0*(bbwire_c_r5.b1->yma-y_bbwire_c_r5.b1)*1e3, bbwire_c_r5.b1->charge;
+};
+        print, text="NEXT";
+        assign,echo=terminal;
+};!end macro
