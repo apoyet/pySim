@@ -117,13 +117,13 @@ for current in IW:
             '%MASKED_on_lr8l' : 0,
             '%MASKED_on_lr8r' : 0,
             # WIRE R5
-            '%MASKED_x_wire_r5' : -distance*0.001,
+            '%MASKED_x_wire_r5' : distance*0.001,
             '%MASKED_y_wire_r5' : 0,
             '%MASKED_s_wire_r5' : 158.3,
             '%MASKED_I_wire_r5' : current,
 
             # WIRE L5
-            '%MASKED_x_wire_l5' : distance*0.001,
+            '%MASKED_x_wire_l5' : -distance*0.001,
             '%MASKED_y_wire_l5' : 0,
             '%MASKED_s_wire_l5' : 158.3,
             '%MASKED_I_wire_l5' : current,
