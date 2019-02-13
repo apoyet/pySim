@@ -4,6 +4,11 @@ An environment for simulations using SixTrack and SixDesk
 
 ## Get started
 In order to work with the pySim package, please clone the project in your own machine, using SSH:
+```
+git clone https://github.com/apoyet/pySim.git¸
+```
+
+If needed one can use ssh connection but for that a public key is needed:
 
 ```
 git clone git@github.com:apoyet/pySim.git
