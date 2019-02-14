@@ -2,13 +2,13 @@ import json
 import numpy as np 
 import pandas as pd 
 
-def createStudiesList(template = 'lhc2018_ats_', X, Y):
+def createStudiesList(template, X, Y):
     # Build the list of studies
 
     myStudies = []
     for x in X:
         for y in Y:
-            myStudies.append(myTemplate+str(x)+'_'+str(y))
+            myStudies.append(template+str(x)+'_'+str(y))
             
     # dump list in json file
     with open('myStudies.json', 'w') as outfile:
