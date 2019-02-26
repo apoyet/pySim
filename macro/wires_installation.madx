@@ -53,7 +53,7 @@ y_dist_sig_bbcw.b1 = y_bbcw.b1/sqrt(table(twiss, mar_bbcw.b1, sig33));
 
 ! current
 
-n_bbcw.b1 = I_bbcw.b1/(qelect*clight*beam%lhcb1->npart);
+n_bbcw.b1 := I_bbcw.b1/(qelect*clight*beam%lhcb1->npart);
 
 
 !======= INSTALL THE WIRE ========!
@@ -64,7 +64,7 @@ flatten;
 xma_bbcw.b1 = x_bbcw.b1 + x_at_bbcw.b1;
 yma_bbcw.b1 = y_bbcw.b1 + y_at_bbcw.b1;
 
-name_bbcw.b1: beambeam, charge=-n_bbcw.b1, sigx=sigx_bbcw.b1, sigy=sigy_bbcw.b1, xma=xma_bbcw.b1, yma=yma_bbcw.b1, bbshape=1, bbdir=-1;
+name_bbcw.b1: beambeam, charge:=-n_bbcw.b1, sigx=sigx_bbcw.b1, sigy=sigy_bbcw.b1, xma=xma_bbcw.b1, yma=yma_bbcw.b1, bbshape=1, bbdir=-1;
 replace, element=mar_bbcw.b1, by=name_bbcw.b1;
 
 flatten;
@@ -146,7 +146,7 @@ y_dist_sig_bbcw.b2 = y_bbcw.b1/sqrt(table(twiss, mar_bbcw.b2, sig33));
 
 ! current
 
-n_bbcw.b2 = I_bbcw.b2/(qelect*clight*beam%lhcb2->npart);
+n_bbcw.b2 := I_bbcw.b2/(qelect*clight*beam%lhcb2->npart);
 
 
 !======= INSTALL THE WIRE ========!
@@ -157,7 +157,7 @@ flatten;
 xma_bbcw.b2 = x_bbcw.b2 + x_at_bbcw.b2;
 yma_bbcw.b2 = y_bbcw.b2 + y_at_bbcw.b2;
 
-name_bbcw.b2: beambeam, charge=-n_bbcw.b2, sigx=sigx_bbcw.b2, sigy=sigy_bbcw.b2, xma=xma_bbcw.b2, yma=yma_bbcw.b2, bbshape=1, bbdir=-1;
+name_bbcw.b2: beambeam, charge:=-n_bbcw.b2, sigx=sigx_bbcw.b2, sigy=sigy_bbcw.b2, xma=xma_bbcw.b2, yma=yma_bbcw.b2, bbshape=1, bbdir=-1;
 replace, element=mar_bbcw.b2, by=name_bbcw.b2;
 
 flatten;
