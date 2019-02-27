@@ -91,7 +91,7 @@ system, "sed -i '$d' bb_lenses.dat"; ! removes last line: NEXT
 option,-echo, -info;
 assign, echo=bb_lenses.dat;
 
-printf, text="name_bbcw.b1 0 %f %f %f %f %f", value= (name_bbcw.b1->sigx)^2*1e6, (name_bbcw.b1->sigy)^2*1e6, -1.0*(name_bbcw.b1->xma-x_at_bbcw.b1)*1e3, -1.0*(name_bbcw.b1->yma-y_at_bbcw.b1)*1e3, name_bbcw.b1->charge;
+printf, text="name_bbcw.b1 0 %f %f %f %f %f", value= (name_bbcw.b1->sigx)^2*1e6, (name_bbcw.b1->sigy)^2*1e6, 1.0*(name_bbcw.b1->xma-x_at_bbcw.b1)*1e3, 1.0*(name_bbcw.b1->yma-y_at_bbcw.b1)*1e3, name_bbcw.b1->charge;
 print, text="NEXT";
 assign, echo=terminal;
 
