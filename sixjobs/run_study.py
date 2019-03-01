@@ -141,12 +141,12 @@ for x in X:
             '%MASKED_x_wire_l1' : 0,
             '%MASKED_y_wire_l1' : 0.00742,
             '%MASKED_s_wire_l1' : 158.3,
-            '%MASKED_I_wire_l1' : y
+            '%MASKED_I_wire_l1' : y,
 
             # OUTPUTS
-            '%MASKED_Output_Ktable_path' : myOutputFolder+'k_table.tfs';
-            '%MASKED_Output_Twiss_Path' : myOutputFolder+'final_twiss.twiss';
-            '%MASKED_footkey' : 0;
+            '%MASKED_Output_Ktable_path' : myOutputFolder+'k_table.tfs',
+            '%MASKED_Output_Twiss_Path' : myOutputFolder+'final_twiss.twiss',
+            '%MASKED_footkey' : 0,
             '%MASKED_footprint_path' : myOutputFolder
 
         })

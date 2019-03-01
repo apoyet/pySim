@@ -698,20 +698,20 @@ select, flag=twiss, pattern="^mq.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY
 select, flag=twiss, pattern="^bbmk.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
 select, flag=twiss, pattern="^ip.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
 select, flag=twiss, pattern="^bbwire.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
-twiss, file=%MASKED_Output_Twiss_Path;
+twiss, file="%MASKED_Output_Twiss_Path";
 
 ! Table for the quadrupoles values (the one used in the matching...)
 DELETE, TABLE=myktable;
 CREATE, TABLE=myktable, COLUMN={kq5.l5b1,kq4.l5b1,kq5.r5b1,kq4.r5b1,kq5.l1b1,kq4.l1b1,kq5.r1b1,kq4.r1b1};
 FILL, TABLE=myktable, ROW=1;
-WRITE, TABLE=myktable, FILE=%MASKED_Output_Ktable_path;
+WRITE, TABLE=myktable, FILE="%MASKED_Output_Ktable_path";
 
 ! Tune Footprint
 
 footkey = %MASKED_footkey;
 
 if(footkey<>0){
-MAKEFOOTPRINT(%MASKED_footprint_path)
+MAKEFOOTPRINT("%MASKED_footprint_path")
 };
 
 
