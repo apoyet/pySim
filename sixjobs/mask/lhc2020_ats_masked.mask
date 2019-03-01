@@ -17,6 +17,7 @@ system,"ln -fns /afs/cern.ch/user/a/apoyet/public/pySim/macro macro";
 option,-echo,-info;
 
 call, file="macro/wires_installation.madx";
+call, file="macro/footprint.madx";
 
 !---------------------------------------------------------------;
 !           CALL IN SELECTION, MACRO's, SEQUENCE, BEAM, NRJ and OPTICS FILES;
@@ -688,6 +689,31 @@ ON_BB_CHARGE:=1;
 VRF400:=12.;
 LAGRF400.B1=0.5;
 LAGRF400.B2=0.;
+
+! We want to save as an output the final Twiss
+if(mylhcbeam==1) {use,  sequence=lhcb1;};
+if(mylhcbeam>1) {use,  sequence=lhcb2;};
+select,flag=twiss, clear;
+select, flag=twiss, pattern="^mq.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+select, flag=twiss, pattern="^bbmk.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+select, flag=twiss, pattern="^ip.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+select, flag=twiss, pattern="^bbwire.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+twiss, file=%MASKED_Output_Twiss_Path;
+
+! Table for the quadrupoles values (the one used in the matching...)
+DELETE, TABLE=myktable;
+CREATE, TABLE=myktable, COLUMN={kq5.l5b1,kq4.l5b1,kq5.r5b1,kq4.r5b1,kq5.l1b1,kq4.l1b1,kq5.r1b1,kq4.r1b1};
+FILL, TABLE=myktable, ROW=1;
+WRITE, TABLE=myktable, FILE="myktable";
+
+! Tune Footprint
+
+footkey = %MASKED_footkey;
+
+if(footkey<>0){
+MAKEFOOTPRINT(%MASKED_footprint_path)
+};
+
 
 twiss;
 xnom1=table(twiss,IP1,x);pxnom1=table(twiss,IP1,px);ynom1=table(twiss,IP1,y);pynom1=table(twiss,IP1,py);
