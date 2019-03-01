@@ -14,13 +14,14 @@ import sixdeskdb
 myOutputForder = 'DA_out'
 call('mkdir '+myOutputForder, shell=True)
 
-IW = [100]
-d = [6]
-for current in IW:
-        for distance in d:
-            myStudy='lhc2018_ats_'+str(current)+'_'+str(distance)
-            call('rm -rf '+myStudy+'.db dares_'+myStudy, shell=True)
-            call(sixdb_path+'sixdb studies/'+myStudy+' load_dir', shell=True)
-            da_data = myStudy
-            call('rm -rf ./'+myOutputForder+'/'+myStudy+'.txt', shell=True)
-            call(sixdb_path+'sixdb '+myStudy+'.db da > ./'+myOutputForder+'/'+myStudy+'.txt', shell=True)
+X = [350]
+Y = [350]
+
+for x in X:
+    for y in Y:
+        myStudy='lhc2018_ats_'+str(x)+'_'+str(y)
+        call('rm -rf '+myStudy+'.db dares_'+myStudy, shell=True)
+        call(sixdb_path+'sixdb studies/'+myStudy+' load_dir', shell=True)
+        da_data = myStudy
+        call('rm -rf ./'+myOutputForder+'/'+myStudy+'.txt', shell=True)
+        call(sixdb_path+'sixdb '+myStudy+'.db da > ./'+myOutputForder+'/'+myStudy+'.txt', shell=True)

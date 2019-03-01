@@ -11,11 +11,11 @@ sixdb_path='/afs/cern.ch/project/sixtrack/SixDesk_utilities/dev/utilities/extern
 sys.path.append(sixdb_path)
 import sixdeskdb
 
-IW = [100]
-d = [6]
-for current in IW:
-        for distance in d:
-                myStudy='lhc2018_ats_'+str(current)+'_'+str(distance)
+X = [350]
+Y = [350]
+for x in X:
+    for y in Y:
+                myStudy='lhc2018_ats_'+str(x)+'_'+str(y)
                 call(sixDeskTool+'set_env.sh -d'+myStudy,shell=True)
                 sixdeskdb.SixDeskDB.from_dir('./studies/'+myStudy+'/').check_results(update_work=True)
                 call(sixDeskTool+'run_six.sh -i',shell=True)

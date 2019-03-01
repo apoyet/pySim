@@ -59,14 +59,11 @@ print('######################################################')
 
 # Define the scans
 
-#IW = [10,100,200,300]
-#d = [6,7,8,9]
+X = [350]
+Y = [350]
 
-IW = [100]
-d = [6]
-
-for current in IW:
-    for distance in d:
+for x in X:
+    for y in Y:
         # folder containing masked file
         maskName = 'lhc2018_ats_masked.mask'
 
@@ -76,6 +73,12 @@ for current in IW:
         # get the list of masked parameters
 
         myMaskedParam = pySim.getMaskedParameterList(myFile, tag='%MASKED_')
+
+        # Output folder
+
+        myOutputFolder = myStudyFolder+'sixjobs/lhc2018_ats_'+str(x)+'_'+str(y)+'_outputs/'
+        os.mkdir(myOutputFolder)
+
 
         # Define the parameters (mask)
 
@@ -90,7 +93,7 @@ for current in IW:
             '%MASKED_ON_COLLISION' : 1,      # Switch to enable crossing scheme
             '%MASKED_emittance_norm' : 2.2,  #[1e-6] nomalised emittance
             '%MASKED_mylhcbeam' : 1,         #beam to be tracked (B1!)
-            '%MASKED_on_ov5' : 0,            # CMS bump (if on, -1.8 [mm])
+            '%MASKED_on_ov5' : -1.8,            # CMS bump (if on, -1.8 [mm])
 
             # OPTICS
             '%MASKED_opticsfile' : "db5/PROTON/opticsfile.22_ctpps2",
@@ -117,32 +120,39 @@ for current in IW:
             '%MASKED_on_lr8l' : 0,
             '%MASKED_on_lr8r' : 0,
             # WIRE R5
-            '%MASKED_x_wire_r5' : distance*0.001,
+            '%MASKED_x_wire_r5' : -0.00715,
             '%MASKED_y_wire_r5' : 0,
             '%MASKED_s_wire_r5' : 158.3,
-            '%MASKED_I_wire_r5' : current,
+            '%MASKED_I_wire_r5' : x,
 
             # WIRE L5
-            '%MASKED_x_wire_l5' : -distance*0.001,
+            '%MASKED_x_wire_l5' : 0.00824,
             '%MASKED_y_wire_l5' : 0,
             '%MASKED_s_wire_l5' : 158.3,
-            '%MASKED_I_wire_l5' : current,
+            '%MASKED_I_wire_l5' : x,
 
             # WIRE R1
             '%MASKED_x_wire_r1' : 0,
-            '%MASKED_y_wire_r1' : distance*0.001,
+            '%MASKED_y_wire_r1' : -0.00739,
             '%MASKED_s_wire_r1' : 158.3,
-            '%MASKED_I_wire_r1' : current,
+            '%MASKED_I_wire_r1' : y,
 
             # WIRE L1
             '%MASKED_x_wire_l1' : 0,
-            '%MASKED_y_wire_l1' : -distance*0.001,
+            '%MASKED_y_wire_l1' : 0.00742,
             '%MASKED_s_wire_l1' : 158.3,
-            '%MASKED_I_wire_l1' : current
+            '%MASKED_I_wire_l1' : y
+
+            # OUTPUTS
+            '%MASKED_Output_Ktable_path' : myOutputFolder+'k_table.tfs';
+            '%MASKED_Output_Twiss_Path' : myOutputFolder+'final_twiss.twiss';
+            '%MASKED_footkey' : 0;
+            '%MASKED_footprint_path' : myOutputFolder
+
         })
 
         mySource =  myMaskFolder+maskName
-        myOutMask = 'lhc2018_ats_'+str(current)+'_'+str(distance)+'.mask'
+        myOutMask = 'lhc2018_ats_'+str(x)+'_'+str(y)+'.mask'
         myOutMask_path = myMaskFolder+myOutMask
         unmask(mySource, myMaskedParam, myParams, myOutMask_path)
 

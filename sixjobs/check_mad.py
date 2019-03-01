@@ -6,8 +6,8 @@ from subprocess import call
 # this script aims to check if mad6t jobs ended normally
 # to do so, one has to check if the output files exist
 
-IW = [50, 75, 100, 125, 150, 200]
-d = [4, 4.5, 5, 5.5, 6]
+X = [350]
+Y = [350]
 
 
 scratchdir = '/afs/cern.ch/work/a/apoyet/LHC_OPTIMAL/scratch0'
@@ -17,9 +17,9 @@ studyName = 'smallScan'
 count = 0
 myMissingMasks = []
 
-for current in IW:
-	for distance in d:
-		myMask='lhc2018_ats_'+str(current)+'_'+str(distance)
+for x in X:
+    for y in Y:
+		myMask='lhc2018_ats_'+str(x)+'_'+str(y)
 		fort2 = scratchdir+'/sixtrack_input/'+studyName+'/'+myMask+'/fort.2_1.gz'
 		fort16 = scratchdir+'/sixtrack_input/'+studyName+'/'+myMask+'/fort.16_1.gz'
 		fort8 = scratchdir+'/sixtrack_input/'+studyName+'/'+myMask+'/fort.8_1.gz'
