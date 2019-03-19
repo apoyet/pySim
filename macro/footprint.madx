@@ -2,10 +2,10 @@
 !                                             FOOTPRINT MACRO                                            !
 !========================================================================================================!
 
-MAKEFOOTPRINT(myPathToFootPrint):macro={
+MAKEFOOTPRINT_V1(mydynapfile, mydynaptunefile):macro={
 small=0.02;
 big=sqrt(1.-small^2);
-track, deltap=0.000,file=track,ONETABLE=false;
+track;
 xs=small;
 ys=small;
 value,xs,ys;
@@ -29,8 +29,6 @@ if (m == 7) { m=0; n=n+1;}
 };
 dynap,fastune,turns=1024;
 endtrack;
-write,table=dynap,file="myPathToFootPrint/dynap";
-write,table=dynaptune,file="myPathToFootPrint/dynaptune";
-! The 'foot' function from SI is no longer available... 
-!system,"/afs/cern.ch/group/si/slap/bin/foot < temp_f_nam/dynaptune > temp_f_nam/footprint";
+write,table=dynap,file=mydynapfile;
+write,table=dynaptune,file=mydynaptunefile;
 };
