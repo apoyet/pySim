@@ -147,7 +147,8 @@ for x in X:
             '%MASKED_Output_Ktable_path' : myOutputFolder+'k_table.tfs',
             '%MASKED_Output_Twiss_Path' : myOutputFolder+'final_twiss.twiss',
             '%MASKED_footkey' : 0,
-            '%MASKED_footprint_path' : myOutputFolder
+            '%MASKED_footprint_mydynap' : myOutputFolder+'dynap',
+            '%MASKED_footprint_mydynaptune' : myOutputFolder+'dynaptune'
 
         })
 
