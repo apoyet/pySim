@@ -13,10 +13,11 @@ system,"ln -fns /afs/cern.ch/eng/lhc/optics/runII/2017 db6"; ! just because ther
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/errors/0705 wise";
 system,"ln -fns /afs/cern.ch/eng/lhc/optics/V6.503/WISE/After_sector_3-4_repair fidel";
 System,"ln -fns /afs/cern.ch/eng/lhc/optics/HLLHCV1.0 slhc";
-system,"ln -fns /afs/cern.ch/user/a/apoyet/public/pySim/macro macro"
+system,"ln -fns /afs/cern.ch/user/a/apoyet/public/pySim/macro macro";
 option,-echo,-info;
 
 call, file="macro/wires_installation.madx";
+call, file="macro/footprint.madx";
 
 !---------------------------------------------------------------;
 !           CALL IN SELECTION, MACRO's, SEQUENCE, BEAM, NRJ and OPTICS FILES;
@@ -578,112 +579,129 @@ vary,   name=dQpy.b1_sq, step=1.0E-7 ;
 
 !======== WIRES INSTALLATION =========!
 
-/*
-if(mylhcbeam==1){
-use, sequence=lhcb1;
-select, flag=twiss, clear;
-twiss;
-};
-if(mylhcbeam==2){
-use, sequence=lhcb2;
-select, flag=twiss, clear;
-twiss;
-};
-*/
-
 sIP1 = 19994.1624;
 sIP5 = 6664.56843;
 quad_config = 1;
 
 if(ON_WIRE == 1){
-s_opt = 158.3;
+!s_opt = 158.3;
 
 ! IP1
 
-!sIP1 = table(twiss, ip1, s);
+x_wire_r1b1 = %MASKED_x_wire_r1;
+y_wire_r1b1 = %MASKED_y_wire_r1;
+s_wire_r1b1 = sIP1+%MASKED_s_wire_r1;
+I_wire_r1b1 = %MASKED_I_wire_r1;
 
-x_wire_r1.b1 = %MASKED_x_wire_r1;
-y_wire_r1.b1 = %MASKED_y_wire_r1;
-s_wire_r1.b1 = sIP1+%MASKED_s_wire_r1;
-I_wire_r1.b1 = %MASKED_I_wire_r1;
+x_wire_l1b1 = %MASKED_x_wire_l1;
+y_wire_l1b1 = %MASKED_y_wire_l1;
+s_wire_l1b1 = sIP1-%MASKED_s_wire_l1;
+I_wire_l1b1 = %MASKED_I_wire_l1;
 
-x_wire_l1.b1 = %MASKED_x_wire_l1;
-y_wire_l1.b1 = %MASKED_y_wire_l1;
-s_wire_l1.b1 = sIP1-%MASKED_s_wire_l1;
-I_wire_l1.b1 = %MASKED_I_wire_l1;
 
-if(I_wire_r1.b1<>0){
-exec, INSTALL_WIRE_C_B1(bbwire_c_r1.b1, s_wire_r1.b1, x_wire_r1.b1, y_wire_r1.b1, I_wire_r1.b1);
+if(I_wire_r1b1<>0){
+on_wire_r1b1 = 1;
+exec, INSTALL_WIRE_C_B1(bbwire_c_r1b1, s_wire_r1b1, x_wire_r1b1, y_wire_r1b1, I_wire_r1b1);
 if(quad_config<>0){
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_r1.b1, s_wire_r1.b1, x_wire_r1.b1, -y_wire_r1.b1, I_wire_r1.b1);
-};
-match;
-!sequence=lhcb1, range=MSS.34L1.B1/MQ.34R1.B1..8;
-global, q1=qx0, q2=qy0;
-vary,   name=kq5.r1b1, step=1.0E-7 ;
-vary,   name=kq4.r1b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
-endmatch;
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_r1b1, s_wire_r1b1, x_wire_r1b1, -y_wire_r1b1, I_wire_r1b1);
+}
+exec, MATCH_WIRE_C_B1(r1b1);
+I_wire_r1b1 = 0;
+kq5.r1b1=kq5.r1b1_BM;
+kq4.r1b1=kq4.r1b1_BM;
+kq6.r1b1=kq6.r1b1_BM;
 };
 
-if(I_wire_l1.b1<>0){
-exec, INSTALL_WIRE_C_B1(bbwire_c_l1.b1, s_wire_l1.b1, x_wire_l1.b1, y_wire_l1.b1, I_wire_l1.b1);
+if(I_wire_l1b1<>0){
+on_wire_l1b1 = 1;
+exec, INSTALL_WIRE_C_B1(bbwire_c_l1b1, s_wire_l1b1, x_wire_l1b1, y_wire_l1b1, I_wire_l1b1);
 if(quad_config<>0){
-     y_wire2_l1.b1 = -y_wire_l1.b1;
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_l1.b1, s_wire_l1.b1, x_wire_l1.b1, y_wire2_l1.b1, I_wire_l1.b1);
-};
-match;
-!sequence=lhcb1, range=MSS.34L1.B1/MQ.34R1.B1..8;
-global, q1=qx0, q2=qy0;
-vary,   name=kq5.l1b1, step=1.0E-7 ;
-vary,   name=kq4.l1b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
-endmatch;
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_l1b1, s_wire_l1b1, x_wire_l1b1, -y_wire_l1b1, I_wire_l1b1);
+}
+exec, MATCH_WIRE_C_B1(l1b1);
+I_wire_l1b1 = 0;
+kq5.l1b1=kq5.l1b1_BM;
+kq4.l1b1=kq4.l1b1_BM;
+kq6.l1b1=kq6.l1b1_BM;
 };
 
 ! IP5
 
-!sIP5 = table(twiss, ip5, s);
+x_wire_r5b1 = %MASKED_x_wire_r5;
+y_wire_r5b1 = %MASKED_y_wire_r5;
+s_wire_r5b1 = sIP5+%MASKED_s_wire_r5;
+I_wire_r5b1 = %MASKED_I_wire_r5;
 
-x_wire_r5.b1 = %MASKED_x_wire_r5;
-y_wire_r5.b1 = %MASKED_y_wire_r5;
-s_wire_r5.b1 = sIP5+%MASKED_s_wire_r5;
-I_wire_r5.b1 = %MASKED_I_wire_r5;
+x_wire_l5b1 = %MASKED_x_wire_l5;
+y_wire_l5b1 = %MASKED_y_wire_l5;
+s_wire_l5b1 = sIP5-%MASKED_s_wire_l5;
+I_wire_l5b1 = %MASKED_I_wire_l5;
 
-x_wire_l5.b1 = %MASKED_x_wire_l5;
-y_wire_l5.b1 = %MASKED_y_wire_l5;
-s_wire_l5.b1 = sIP5-%MASKED_s_wire_l5;
-I_wire_l5.b1 = %MASKED_I_wire_l5;
-
-
-if(I_wire_r5.b1<>0){
-exec, INSTALL_WIRE_C_B1(bbwire_c_r5.b1, s_wire_r5.b1, x_wire_r5.b1, y_wire_r5.b1, I_wire_r5.b1);
+if(I_wire_r5b1<>0){
+on_wire_r5b1 = 1;
+exec, INSTALL_WIRE_C_B1(bbwire_c_r5b1, s_wire_r5b1, x_wire_r5b1, y_wire_r5b1, I_wire_r5b1);
 if(quad_config<>0){
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_r5.b1, s_wire_r5.b1, -x_wire_r5.b1, y_wire_r5.b1, I_wire_r5.b1);
-};
-match;
-!sequence=lhcb1, range=MSS.34L5.B1/MQ.34R5.B1..8;
-global, q1=qx0, q2=qy0;
-vary,   name=kq5.r5b1, step=1.0E-7 ;
-vary,   name=kq4.r5b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
-endmatch;
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_r5b1, s_wire_r5b1, -x_wire_r5b1, y_wire_r5b1, I_wire_r5b1);
+}
+exec, MATCH_WIRE_C_B1(r5b1);
+I_wire_r5b1 = 0;
+kq5.r5b1=kq5.r5b1_BM;
+kq4.r5b1=kq4.r5b1_BM;
+kq6.r5b1=kq6.r5b1_BM;
 };
 
-if(I_wire_l5.b1<>0){
-exec, INSTALL_WIRE_C_B1(bbwire_c_l5.b1, s_wire_l5.b1, x_wire_l5.b1, y_wire_l5.b1, I_wire_l5.b1);
+if(I_wire_l5b1<>0){
+on_wire_l5b1 = 1;
+exec, INSTALL_WIRE_C_B1(bbwire_c_l5b1, s_wire_l5b1, x_wire_l5b1, y_wire_l5b1, I_wire_l5b1);
 if(quad_config<>0){
-     x_wire2_l5.b1 = -x_wire_l5.b1;
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_l5.b1, s_wire_l5.b1, x_wire2_l5.b1, y_wire_l5.b1, I_wire_l5.b1);
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_l5b1, s_wire_l5b1, -x_wire_l5b1, y_wire_l5b1, I_wire_l5b1);
+}
+exec, MATCH_WIRE_C_B1(l5b1);
+I_wire_l5b1 = 0;
+kq5.l5b1=kq5.l5b1_BM;
+kq4.l5b1=kq4.l5b1_BM;
+kq6.l5b1=kq6.l5b1_BM;
 };
+
+use, sequence = lhcb1;
+twiss;
+
+! Switch ON the wires back
+
+if(on_wire_r1b1 <>0){
+I_wire_r1b1 = %MASKED_I_wire_r1;
+kq6.r1b1=kq6.r1b1_AM;
+kq5.r1b1=kq5.r1b1_AM;
+kq4.r1b1=kq4.r1b1_AM;
+};
+
+if(on_wire_l1b1 <>0){
+I_wire_l1b1 = %MASKED_I_wire_l1;
+kq6.l1b1=kq6.l1b1_AM;
+kq5.l1b1=kq5.l1b1_AM;
+kq4.l1b1=kq4.l1b1_AM;
+};
+
+if(on_wire_r5b1 <>0){
+I_wire_r5b1 = %MASKED_I_wire_r5;
+kq6.r5b1=kq6.r5b1_AM;
+kq5.r5b1=kq5.r5b1_AM;
+kq4.r5b1=kq4.r5b1_AM;
+};
+
+if(on_wire_l5b1 <>0){
+I_wire_l5b1 = %MASKED_I_wire_l5;
+kq6.l5b1=kq6.l5b1_AM;
+kq5.l5b1=kq5.l5b1_AM;
+kq4.l5b1=kq4.l5b1_AM;
+};
+
 match;
-!sequence=lhcb1, range=MSS.34L5.B1/MQ.34R5.B1..8;
 global, q1=qx0, q2=qy0;
-vary,   name=kq5.l5b1, step=1.0E-7 ;
-vary,   name=kq4.l5b1, step=1.0E-7 ;
-lmdif,  calls=100, tolerance=1.0E-21;
+vary,   name=dQx.b1_sq, step=1.0E-7 ;
+vary,   name=dQy.b1_sq, step=1.0E-7 ;
+lmdif,  calls=500, tolerance=1.0E-21;
 endmatch;
-};
 
 };
 
@@ -696,6 +714,31 @@ ON_BB_CHARGE:=1;
 VRF400:=12.;
 LAGRF400.B1=0.5;
 LAGRF400.B2=0.;
+
+! We want to save as an output the final Twiss
+if(mylhcbeam==1) {use,  sequence=lhcb1;};
+if(mylhcbeam>1) {use,  sequence=lhcb2;};
+select,flag=twiss, clear;
+select, flag=twiss, pattern="^mq.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+select, flag=twiss, pattern="^bbmk.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+select, flag=twiss, pattern="^ip.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+select, flag=twiss, pattern="^bbwire.*", column=NAME, S, L, X, Y, PX, PY, BETX, BETY, MUX, MUY, DX, DY, DPX, DPY;
+twiss, file="%MASKED_Output_Twiss_Path";
+
+! Table for the quadrupoles values (the one used in the matching...)
+DELETE, TABLE=myktable;
+CREATE, TABLE=myktable, COLUMN={kq5.l5b1,kq4.l5b1,kq5.r5b1,kq4.r5b1,kq5.l1b1,kq4.l1b1,kq5.r1b1,kq4.r1b1};
+FILL, TABLE=myktable, ROW=1;
+WRITE, TABLE=myktable, FILE="%MASKED_Output_Ktable_path";
+
+! Tune Footprint
+
+footkey = %MASKED_footkey;
+
+if(footkey<>0){
+MAKEFOOTPRINT_V1("%MASKED_footprint_mydynap", "%MASKED_footprint_mydynaptune")
+};
+
 
 twiss;
 xnom1=table(twiss,IP1,x);pxnom1=table(twiss,IP1,px);ynom1=table(twiss,IP1,y);pynom1=table(twiss,IP1,py);
