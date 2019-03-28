@@ -603,7 +603,8 @@ if(I_wire_r1b1<>0){
 on_wire_r1b1 = 1;
 exec, INSTALL_WIRE_C_B1(bbwire_c_r1b1, s_wire_r1b1, x_wire_r1b1, y_wire_r1b1, I_wire_r1b1);
 if(quad_config<>0){
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_r1b1, s_wire_r1b1, x_wire_r1b1, -y_wire_r1b1, I_wire_r1b1);
+     y_wire2_r1b1 = -y_wire_r1b1;
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_r1b1, s_wire_r1b1, x_wire_r1b1, y_wire2_r1b1, I_wire_r1b1);
 }
 exec, MATCH_WIRE_C_B1(r1b1);
 I_wire_r1b1 = 0;
@@ -616,7 +617,8 @@ if(I_wire_l1b1<>0){
 on_wire_l1b1 = 1;
 exec, INSTALL_WIRE_C_B1(bbwire_c_l1b1, s_wire_l1b1, x_wire_l1b1, y_wire_l1b1, I_wire_l1b1);
 if(quad_config<>0){
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_l1b1, s_wire_l1b1, x_wire_l1b1, -y_wire_l1b1, I_wire_l1b1);
+     y_wire2_l1b1 = -y_wire_l1b1;
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_l1b1, s_wire_l1b1, x_wire_l1b1, y_wire2_l1b1, I_wire_l1b1);
 }
 exec, MATCH_WIRE_C_B1(l1b1);
 I_wire_l1b1 = 0;
@@ -641,7 +643,8 @@ if(I_wire_r5b1<>0){
 on_wire_r5b1 = 1;
 exec, INSTALL_WIRE_C_B1(bbwire_c_r5b1, s_wire_r5b1, x_wire_r5b1, y_wire_r5b1, I_wire_r5b1);
 if(quad_config<>0){
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_r5b1, s_wire_r5b1, -x_wire_r5b1, y_wire_r5b1, I_wire_r5b1);
+     x_wire2_r5b1 = -x_wire_r5b1;
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_r5b1, s_wire_r5b1, x_wire2_r5b1, y_wire_r5b1, I_wire_r5b1);
 }
 exec, MATCH_WIRE_C_B1(r5b1);
 I_wire_r5b1 = 0;
@@ -654,7 +657,8 @@ if(I_wire_l5b1<>0){
 on_wire_l5b1 = 1;
 exec, INSTALL_WIRE_C_B1(bbwire_c_l5b1, s_wire_l5b1, x_wire_l5b1, y_wire_l5b1, I_wire_l5b1);
 if(quad_config<>0){
-     exec, INSTALL_WIRE_C_B1(bbwire_c2_l5b1, s_wire_l5b1, -x_wire_l5b1, y_wire_l5b1, I_wire_l5b1);
+     x_wire2_l5b1 = -x_wire_l5b1;
+     exec, INSTALL_WIRE_C_B1(bbwire_c2_l5b1, s_wire_l5b1, x_wire2_l5b1, y_wire_l5b1, I_wire_l5b1);
 }
 exec, MATCH_WIRE_C_B1(l5b1);
 I_wire_l5b1 = 0;
